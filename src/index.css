@@ -17,27 +17,30 @@ body,
 }
 
 .pokemonCardImg {
-  @apply w-full bg-white rounded-full;
+  @apply w-full bg-white rounded-none transition-none duration-500 ease-in-out;
 }
 
 .pokemonCard.expanded .pokemonCardImg {
-  @apply rounded-none w-52 h-52;
+  @apply rounded-full w-52 h-52 transition-all;
 }
 
 .pokemonCardTitle {
-  @apply block w-fit mx-auto text-xl mt-2;
+  @apply block w-fit mx-auto text-xl mt-2 transition-all duration-500 ease-in-out;
 }
 
 .pokemonCard.expanded .pokemonCardTitle {
-  @apply font-semibold text-3xl w-fit mx-0;
+  @apply font-semibold text-3xl w-fit mx-auto;
 }
 
+.pokemonCardContent {
+  @apply transition-opacity duration-1000 ease-out;
+}
 .pokemonCard .pokemonCardContent {
-  @apply hidden;
+  @apply opacity-0 invisible h-0;
 }
 
 .pokemonCard.expanded .pokemonCardContent {
-  @apply block w-full  bg-white mt-4 overflow-y-scroll text-3xl;
+  @apply block w-full  bg-white mt-4 overflow-y-scroll text-3xl h-auto visible opacity-100;
 }
 
 body {

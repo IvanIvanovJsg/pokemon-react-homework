@@ -83,7 +83,8 @@ function PokemonCard({ pokemon, toggleOverlayCallback }: PokemonCardProps) {
           },
         ],
         {
-          duration: 1000, // Duration of the animation in milliseconds
+          duration: 500,
+          easing: "ease-in-out",
         },
       );
     });
