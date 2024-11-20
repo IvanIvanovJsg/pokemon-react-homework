@@ -62,7 +62,8 @@ function Body() {
       <div className="h-fit w-full bg-amber-200 p-10 grid justify-items-center gap-y-10 xl:grid-cols-5 md:grid-cols-3 ">
         {Array.from({ length: 15 }).map((_, i) => (
           <PokemonCard
-            pokemon={pokemon}
+            key={i}
+            pokemon={{ ...pokemon, id: i }}
             toggleOverlayCallback={toggleOverlayCallback}
           />
         ))}
