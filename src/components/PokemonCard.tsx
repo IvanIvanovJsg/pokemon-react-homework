@@ -48,10 +48,14 @@ function PokemonCard({ pokemon, toggleOverlayCallback }: PokemonCardProps) {
       .querySelectorAll(".flipTransitionable");
 
     flipAnimatable.forEach((el) => {
+      // if (el instanceof HTMLImageElement || el instanceof HTMLSpanElement) {
+      //   return;
+      // }
+
       if (!flipAnimatableElements.current.some((x) => x.element === el)) {
         flipAnimatableElements.current.push({
           element: el,
-          rectData: { collapsedRect: getDomRect(el), expandedRect: null },
+          rectData: { collapsedRect: null, expandedRect: null },
         });
       }
     });
@@ -66,18 +70,23 @@ function PokemonCard({ pokemon, toggleOverlayCallback }: PokemonCardProps) {
     flipAnimatableElements.current.forEach((flipEl: FlipAnimatableElement) => {
       flipEl.rectData.expandedRect = getDomRect(flipEl.element);
 
+      console.log(`element is ${flipEl.element}`);
+      console.log(`expanded width is ${flipEl.rectData.expandedRect.width}`);
+      console.log(`expanded height is ${flipEl.rectData.expandedRect.height}`);
+
       const [deltaX, deltaY, scaleX, scaleY] = calculateTransfrom(
         flipEl.rectData.collapsedRect!,
         flipEl.rectData.expandedRect,
       );
-
-      console.log("I am here with pokemon id " + pokemon.id);
 
       flipEl.element.animate(
         [
           {
             transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
           },
+          // {
+          //   transform: `translate(0) scale(${scaleX}, ${scaleY})`,
+          // },
           {
             transform: "translate(0, 0) scale(1)",
           },
@@ -91,6 +100,9 @@ function PokemonCard({ pokemon, toggleOverlayCallback }: PokemonCardProps) {
   }, [isExpanded]);
 
   function onCardClick() {
+    flipAnimatableElements.current.forEach((el) => {
+      el.rectData.collapsedRect = getDomRect(el.element);
+    });
     toggleOverlayCallback(!isExpanded);
     setIsExpanded(!isExpanded);
   }
