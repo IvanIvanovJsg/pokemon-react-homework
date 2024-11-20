@@ -1,6 +1,9 @@
-export interface PokemonObj {
+export interface Pokemon {
+  id: number;
   name: string;
-  sprites: {
-    front_default: string;
-  };
+  img: string;
+  height: number;
+  weight: number;
+
+  stats: { name: string; value: number }[];
 }

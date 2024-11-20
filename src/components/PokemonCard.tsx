@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { PokemonObj } from "../types";
+import { Pokemon } from "../types";
 
 interface PokemonCardProps {
-  pokemonObj: PokemonObj;
+  pokemon: Pokemon;
   toggleOverlayCallback: (setOverlay: boolean) => void;
 }
 
-function PokemonCard({ pokemonObj, toggleOverlayCallback }: PokemonCardProps) {
+function PokemonCard({ pokemon, toggleOverlayCallback }: PokemonCardProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   function onCardClick() {
@@ -14,25 +14,30 @@ function PokemonCard({ pokemonObj, toggleOverlayCallback }: PokemonCardProps) {
     setIsExpanded(!isExpanded);
   }
 
-  const pokemonName = pokemonObj.name;
-  const pokemonImg = pokemonObj.sprites.front_default;
+  const pokemonName = pokemon.name;
+  const pokemonImg = pokemon.img;
+  const pokemonWeight = (pokemon.weight / 10).toFixed(1);
+  const pokemonHeight = (pokemon.height / 10).toFixed(1);
 
   return (
     <div
       onClick={onCardClick}
-      className={
-        "rounded bg-red-500 " +
-        (isExpanded ? "absolute w-8/12 h-4/6" : "h-fit w-52 p-3")
-      }
+      className={"pokemonCard " + (isExpanded && "expanded")}
     >
-      <img
-        src={pokemonImg}
-        alt="Pokemon img"
-        className={
-          "w-full bg-white rounded-full " + (isExpanded ? "hidden" : "")
-        }
-      />
-      <span className={"block w-fit mx-auto text-xl mt-2"}>{pokemonName}</span>
+      <img src={pokemonImg} alt="Pokemon img" className="pokemonCardImg" />
+      <span className="pokemonCardTitle">{pokemonName}</span>
+      <div className="pokemonCardContent">
+        <div>Id: {pokemon.id}</div>
+        <div>Height: {pokemonHeight} m</div>
+        <div>Weight: {pokemonWeight} kg</div>
+
+        <div className="mt-8">Base stats:</div>
+        {Array.from({ length: pokemon.stats.length }).map((_, i) => (
+          <div className="ml-8">
+            {pokemon.stats[i].name}: {pokemon.stats[i].value}{" "}
+          </div>
+        ))}
+      </div>
     </div>
   );
 }

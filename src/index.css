@@ -8,6 +8,38 @@ body,
   height: 100%;
 }
 
+.pokemonCard {
+  @apply rounded bg-red-500 h-fit w-52 p-3;
+}
+
+.pokemonCard.expanded {
+  @apply absolute grid grid-rows-[auto_auto_1fr] justify-items-center w-8/12 h-4/6;
+}
+
+.pokemonCardImg {
+  @apply w-full bg-white rounded-full;
+}
+
+.pokemonCard.expanded .pokemonCardImg {
+  @apply rounded-none w-52 h-52;
+}
+
+.pokemonCardTitle {
+  @apply block w-fit mx-auto text-xl mt-2;
+}
+
+.pokemonCard.expanded .pokemonCardTitle {
+  @apply font-semibold text-3xl w-fit mx-0;
+}
+
+.pokemonCard .pokemonCardContent {
+  @apply hidden;
+}
+
+.pokemonCard.expanded .pokemonCardContent {
+  @apply block w-full  bg-white mt-4 overflow-y-scroll text-3xl;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
