@@ -3,6 +3,7 @@ import { Pokemon } from "../types";
 import React, { useEffect, useRef, useState } from "react";
 
 interface PokeApiResult {
+  count: number;
   next: string; // the next link in pagination
   results: { url: string }[];
 }
@@ -20,15 +21,21 @@ function Body() {
   const [pokemons, setPokemons] = useState<Pokemon[]>([]);
   const [loadPokemonsTrigger, setLoadPokemonsTrigger] = useState(false);
   const [isOverlayOn, setIsOverlayOn] = useState(false);
-  const nextPokemonsLink = useRef<string>(
+
+  const nextPokemonsLink = useRef<string | null>(
     "https://pokeapi.co/api/v2/pokemon/?limit=15&offset=0",
   );
 
   useEffect(() => {
     async function loadPokemon() {
+      if (nextPokemonsLink.current === null) {
+        return;
+      }
+
       const res = await fetch(nextPokemonsLink.current);
       const pokeApiResult: PokeApiResult = await res.json();
       const pokeApiPokemonResult: { url: string }[] = pokeApiResult.results;
+
       nextPokemonsLink.current = pokeApiResult.next;
 
       const pokeApiPokemonPromises: Promise<PokeApiPokemon>[] =
@@ -97,7 +104,9 @@ function Body() {
 
         <button
           onClick={() => {
-            setLoadPokemonsTrigger(!loadPokemonsTrigger);
+            nextPokemonsLink.current !== null
+              ? setLoadPokemonsTrigger(!loadPokemonsTrigger)
+              : alert("No more pokemons");
           }}
           className="w-52 h-20 rounded-full mx-auto grid place-items-center text-2xl text-white bg-indigo-700 hover:bg-indigo-400"
         >
